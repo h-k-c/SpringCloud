@@ -1,9 +1,6 @@
 server:
   port: 80
 
-spring:
-  application:
-    name: cloud-consumer-service
 
 eureka:
   client:
@@ -14,3 +11,10 @@ eureka:
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
 
+#设置feign的客户端的连接时间
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+logging:
+  level:
+    com.springcloud.service.PaymentFeignService: debug
