@@ -4,7 +4,6 @@ import com.springcloud.entities.CommonResult;
 import com.springcloud.entities.Payment;
 import com.springcloud.lb.LoadBalancer;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +43,7 @@ public class OrderController {
 
 
     @GetMapping(value = "/consumer/payment/getForEntity/{id}")
-    public CommonResult<Payment> getPayment2(@PathVariable("id") Long id){
+    public CommonResult<Object> getPayment2(@PathVariable("id") Long id){
         ResponseEntity<CommonResult> entity=restTemplate.getForEntity(PAYMENT_URL+"/payment/get/"+id,CommonResult.class);
         if(entity.getStatusCode().is2xxSuccessful()){
             return entity.getBody();
@@ -63,6 +62,12 @@ public class OrderController {
         URI uri= serviceInstance.getUri();
 
         return restTemplate.getForObject(uri+"/payment/lb",String.class);
+    }
+
+    @GetMapping("/consumer/payment/zipkin")
+    public String paymentZipkin(){
+        String result=restTemplate.getForObject("http://localhost:8001/"+"/pyment/zipkin",String.class);
+        return result;
     }
 
 }

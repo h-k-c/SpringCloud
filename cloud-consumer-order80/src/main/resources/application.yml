@@ -4,7 +4,12 @@ server:
 spring:
   application:
     name: cloud-consumer-service
-
+  #配置zipkin
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1
 eureka:
   client:
     #表示把自己注册到EurekaServer中，默认是true
